@@ -71,7 +71,7 @@ router.get('/network', isAuthenticated, async (req, res) => {
     href: linkify.find(post.content)?.[0]?.href,
   }));
 
-  return res.render('network', { posts: linksInPosts });
+  return res.render('network', { title: 'Your network', posts: linksInPosts });
 });
 
 router.get('/index.xml', async (req, res) => {
@@ -86,7 +86,7 @@ router.get('/index.xml', async (req, res) => {
   } else {
     params.bookmarks = bookmarks.map((bookmark) => {
       const tagArray = bookmark.tags?.split(' ').map((b) => b.slice(1)) ?? [];
-      const createdAt = new Date(bookmark.created_at);
+      const createdAt = new Date(`${bookmark.created_at}Z`);
       return {
         tag_array: tagArray,
         ...bookmark,
