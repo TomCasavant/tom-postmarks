@@ -13,6 +13,8 @@
   --font-family: 'Public Sans', sans-serif;
   --font-size: 16px;
   --color-background: #2e3547;
+  --color-background-two: #382429;
+  --color-background-grad: 135deg;
   --color-foreground: #756f70;
   --color-accent: #554538;
   --color-link: #425d76;
@@ -99,10 +101,13 @@ html {
 
 body {
   font-family: 'Public Sans', sans-serif;
-  background-color: var(--color-background);
+  /*background-color: var(--color-background);)*/
   padding: 0 1rem;
   max-width: 67.5rem;
   margin: 0 auto;
+  background: linear-gradient(var(--color-background-grad), var(--color-background), var(--color-background-two)); /* Adjust colors as needed */
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 a {
