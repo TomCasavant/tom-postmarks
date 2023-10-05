@@ -22,18 +22,7 @@ try {
 
 export const actorInfo = actorFileData;
 export const account = actorInfo.username || 'bookmarks';
-
-export const domain = (() => {
-  if (process.env.PUBLIC_BASE_URL) {
-    return process.env.PUBLIC_BASE_URL;
-  }
-  if (process.env.PROJECT_DOMAIN) {
-    return `${process.env.PROJECT_DOMAIN}.glitch.me`;
-  }
-
-  console.log("didn't find a PUBLIC_BASE_URL or PROJECT_DOMAIN in env, assuming localhost");
-  return 'localhost';
-})();
+export const domain = process.env.PROJECT_DOMAIN ? `${process.env.PROJECT_DOMAIN}.glitch.me` : 'localhost'; // edit this if you have a custom domain
 
 let instanceData = {};
 try {
@@ -48,8 +37,8 @@ export const instanceVersion = instanceData.version || 'undefined';
 
 export function timeSince(ms) {
   const timestamp = new Date(ms);
-  const now = new Date(new Date().toUTCString());
-  const secondsPast = (now - timestamp) / 1000;
+  const now = new Date();
+  const secondsPast = (now.getTime() - timestamp) / 1000;
   if (secondsPast < 60) {
     return `${parseInt(secondsPast, 10)}s ago`;
   }

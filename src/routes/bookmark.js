@@ -82,14 +82,15 @@ router.get('/:id', async (req, res) => {
   const params = {};
   const bookmarksDb = req.app.get('bookmarksDb');
 
+  params.tags = await bookmarksDb.getTags();
+
   const bookmark = await bookmarksDb.getBookmark(req.params.id);
   const comments = await bookmarksDb.getVisibleCommentsForBookmark(bookmark.id);
 
   if (!bookmark) {
     params.error = data.errorMessage;
   } else {
-    params.title = bookmark.title;
-    params.hideTitle = true;
+    params.title = `Bookmark: ${bookmark.title}`;
     params.bookmark = bookmark;
     params.comments = comments;
   }
@@ -102,6 +103,8 @@ router.get('/:id/edit', isAuthenticated, async (req, res) => {
   const bookmarksDb = req.app.get('bookmarksDb');
   const apDb = req.app.get('apDb');
 
+  params.tags = await bookmarksDb.getTags();
+
   const bookmark = await bookmarksDb.getBookmark(req.params.id);
   bookmark.tagsArray = encodeURIComponent(JSON.stringify(bookmark.tags?.split(' ').map((b) => b.slice(1)) || []));
   const comments = await bookmarksDb.getAllCommentsForBookmark(req.params.id);
@@ -113,7 +116,7 @@ router.get('/:id/edit', isAuthenticated, async (req, res) => {
     params.allowed = permissions?.allowed;
     params.blocked = permissions?.blocked;
 
-    params.title = 'Edit Bookmark';
+    params.title = `Edit Bookmark: ${bookmark.title}`;
     params.bookmark = bookmark;
     params.comments = comments;
   }
@@ -156,12 +159,10 @@ router.post('/multiadd', isAuthenticated, async (req, res) => {
     }
 
     if (url.length < 3) return;
-    // remove line break from URL value
-    const link = url.replace(/(\r\n|\n|\r)/gm, '');
 
     let meta = {};
     try {
-      meta = await ogScraper({ url: link });
+      meta = await ogScraper({ url: url.replace(/(\r\n|\n|\r)/gm, '') }); // remove line break from URL value
       if (meta?.result?.ogDescription !== undefined) {
         meta.result.ogDescription = `"${meta.result.ogDescription}"`;
       }
@@ -170,9 +171,9 @@ router.post('/multiadd', isAuthenticated, async (req, res) => {
     }
 
     await bookmarksDb.createBookmark({
-      url: link,
+      url,
       title: meta.result.ogTitle,
-      description: meta.result.ogDescription || ' ', // add *something*, even if ogDesc is empty (keeps Atom feed validation happy)
+      description: meta.result.ogDescription,
     });
   });
 

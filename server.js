@@ -94,9 +94,6 @@ const hbs = create({
     ifThisTag(tag, path, options) {
       return path === `/tagged/${tag}` ? options.fn(this) : options.inverse(this);
     },
-    eq(a, b, options) {
-      return a === b ? options.fn(this) : options.inverse(this);
-    },
   },
   partialsDir: './src/pages/partials',
   extname: '.hbs',

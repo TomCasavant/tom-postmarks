@@ -1,21 +1,24 @@
 {{#unless creating}}
-  <p>
-    <a href="/bookmark/{{bookmark.id}}"> ← Back to viewing</a>
-  </p>
+<p>
+  <a href="/bookmark/{{bookmark.id}}"> ← Back to viewing</a>
+</p>
 {{/unless}}
 
-{{> edit_bookmark}}
 
-{{#unless creating}}
+{{> edit_bookmark }}
+
+{{#unless creating }}
   <h2>Review comments</h2>
-  {{#each comments}}
-    {{> show_comment comment=this admin=true}}
+  {{#if comments }}
+    {{#each comments }}
+      {{> show_comment comment=this admin=true}}
+    {{/each}}
   {{else}}
     No comments yet!
-  {{/each}}
+  {{/if}}
 {{/unless}}
 
-{{#unless creating}}
+{{#unless creating }}
   <h2>
     The Danger Zone
   </h2>
@@ -35,9 +38,9 @@
 
 
 <datalist id="all-tags">
-  {{#each tags}}
-    <option value="{{this}}"/>
-  {{/each}}
+{{#each tags}}
+  <option value="{{this}}"/>
+{{/each}}
 </datalist>
 
 {{#section 'script'}}

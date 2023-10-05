@@ -47,15 +47,8 @@ function addBookmarkDomain(bookmark) {
 }
 
 function insertRelativeTimestamp(object) {
-  // timestamps created by SQLite's CURRENT_TIMESTAMP are in UTC regardless
-  // of server setting, but don't actually indicate a timezone in the string
-  // that's returned. Had I known this, I probably would have avoided
-  // CURRENT_TIMESTAMP altogether, but since lots of people already have
-  // databases full of bookmarks, in lieu of a full-on migration to go along
-  // with a code change that sees JS-generated timestamps at the time of
-  // SQLite INSERTs, we can just append the UTC indicator to the string when parsing it.
   return {
-    timestamp: timeSince(new Date(`${object.created_at}Z`).getTime()),
+    timestamp: timeSince(new Date(object.created_at).getTime()),
     ...object,
   };
 }
@@ -189,23 +182,6 @@ export async function getBookmarks(limit = 10, offset = 0) {
       offset,
     );
     return results.map((b) => massageBookmark(b));
-  } catch (dbError) {
-    // Database connection error
-    console.error(dbError);
-  }
-  return undefined;
-}
-
-export async function getBookmarksForCSVExport() {
-  // We use a try catch block in case of db errors
-  try {
-    const headers = ['title', 'url', 'description', 'tags', 'created_at', 'updated_at'];
-    const selectHeaders = headers.join(',');
-    // This will create an object where the keys and values match. This will
-    // allow the csv stringifier to interpret this as a header row.
-    const columnTitles = Object.fromEntries(headers.map((header) => [header, header]));
-    const results = await db.all(`SELECT ${selectHeaders} from bookmarks`);
-    return [columnTitles].concat(results);
   } catch (dbError) {
     // Database connection error
     console.error(dbError);
