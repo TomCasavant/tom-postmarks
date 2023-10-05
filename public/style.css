@@ -12,11 +12,12 @@
 :root {
   --font-family: 'Public Sans', sans-serif;
   --font-size: 16px;
-  --color-background: #fff1fc;
-  --color-foreground: #000000;
-  --color-accent: #2914a0;
-  --color-link: #2800ff;
-  --color-dimmed: #545454;
+  --color-background: #2e3547;
+  --color-foreground: #756f70;
+  --color-accent: #554538;
+  --color-link: #425d76;
+  --color-dimmed: #756f70;
+  --color-description: #554538;
 }
 
 * {
@@ -24,6 +25,7 @@
   margin: 0;
   padding: 0;
 }
+
 
 [hidden] {
   display: none !important;
@@ -157,6 +159,10 @@ h1 {
   font-size: 3rem;
   line-height: 3.15rem;
   margin: 0 0 2rem;
+}
+
+.description {
+  color: var(--color-description);
 }
 
 h1 a {
