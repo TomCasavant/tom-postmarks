@@ -26,7 +26,7 @@ app.use((req, res, next) => {
   return next();
 });
 
-app.set('site_name', actorInfo.displayName || 'Postmarks');
+app.set('site_name', actorInfo.displayName || 'Tom\'s Bookmarks');
 app.set('bookmarksDb', bookmarksDb);
 app.set('apDb', apDb);
 app.set('account', account);

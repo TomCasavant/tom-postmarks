@@ -16,10 +16,11 @@
   --color-background-two: #382429;
   --color-background-grad: 135deg;
   --color-foreground: #756f70;
-  --color-accent: #554538;
+  --color-accent: #996666;
   --color-link: #425d76;
   --color-dimmed: #756f70;
-  --color-description: #554538;
+  --color-description: #885555;
+  --color-logo-text: #996666;
 }
 
 * {
@@ -47,16 +48,30 @@ html {
   font-size: var(--font-size);
 }
 
+
+/*.link-span::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: red; /* Add background color to visualize the span 
+  opacity: 0.5; /* Optional: Add opacity for transparency 
+  pointer-events: none; /* Allow clicks to go through the pseudo-element
+}*/
+  
+
 .btn--remix {
   font-family: 'Public Sans', sans-serif;
   padding: 0.75rem 1rem;
   font-size: 1.1rem;
   line-height: 1rem;
   font-weight: 500;
-  height: 2.75rem;
+  height: 2.45rem;
   align-items: center;
   cursor: pointer;
-  background: #ffffff;
+  background: linear-gradient(var(--color-background-grad), var(--color-background), var(--color-background-two));;
   border: 1px solid #000000;
   box-sizing: border-box;
   border-radius: 4px;
@@ -71,7 +86,7 @@ html {
 }
 
 .btn--remix:hover {
-  background-color: #d0fff1;
+  background: linear-gradient(var(--color-background-grad), var(--color-background), var(--color-link));
 }
 
 .footer {
@@ -81,7 +96,7 @@ html {
   padding: 1rem 0 0.75rem 0;
   width: 100%;
   flex-wrap: wrap;
-  border-top: .25rem solid #fff;
+  border-top: .25rem solid var(--color-logo-text);
   gap: 1rem;
 }
 
@@ -105,7 +120,7 @@ body {
   padding: 0 1rem;
   max-width: 67.5rem;
   margin: 0 auto;
-  background: linear-gradient(var(--color-background-grad), var(--color-background), var(--color-background-two)); /* Adjust colors as needed */
+  background: linear-gradient(var(--color-background-grad), var(--color-background), var(--color-background-two));
   background-size: cover;
   background-attachment: fixed;
 }
@@ -144,6 +159,10 @@ a {
   .content:not(:only-child) {
     margin-bottom: 2rem;
   }
+  .tag-list {
+    display: none;
+  }
+
 }
 
 p,
@@ -161,7 +180,7 @@ h1 {
   color: var(--color-accent);
   font-style: normal;
   font-weight: 600;
-  font-size: 3rem;
+  font-size: 1.9rem;
   line-height: 3.15rem;
   margin: 0 0 2rem;
 }
@@ -233,10 +252,14 @@ p.error a {
 .header {
   justify-content: space-between;
   align-items: center;
-  border-bottom: .25rem solid #fff;
-  padding: 1rem 0;
+  border-bottom: .05rem solid var(--color-logo-text);
+  padding: 0.2rem 0;
   margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  text-shadow: 0 0 90px var(--color-logo-text);
 }
+
 
 @media (min-width: 600px) {
   .header {
@@ -245,10 +268,11 @@ p.error a {
 }
 
 .logo {
-  font-size: 3rem;
+  font-size: 2.3rem;
   font-weight: 500;
   line-height: 6rem;
   margin: 0;
+  color: var(--color-logo-text);
 }
 
 .logo a {
@@ -262,6 +286,14 @@ p.error a {
   height: 6rem;
   width: auto;
   vertical-align: middle;
+}
+
+.username {
+  font-size: 0.5rem;
+  font-weight: 200;
+  line-height: 0rem;
+  margin: 0;
+  color: var(--color-logo-text);
 }
 
 @media (max-width: 599px) {
@@ -285,7 +317,16 @@ p.error a {
 
 .bookmark {
   margin-bottom: 2rem;
+  /*background-color: white; /* Set a background color */
+  padding: 1.5rem;
+  border-radius: 10px; /* Adjust the border radius for rounded corners */
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5); /* Add a box shadow */
+  position: relative;
 }
+
+/*.bookmark:hover {
+  background: linear-gradient(var(--color-background-grad), var(--color-background), var(--color-link));
+}*/
 
 .bookmark .headline {
   font-size: 1.25rem;
@@ -354,6 +395,7 @@ p.error a {
 
 .tag-list {
   list-style: none;
+  border-right: .05rem solid var(--color-logo-text);
 }
 
 .tag-list a {
