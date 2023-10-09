@@ -2,10 +2,10 @@ import fetch from 'node-fetch';
 import crypto from 'crypto';
 
 import { signedGetJSON, signedPostJSON } from './signature.js';
-import { actorInfo, actorMatchesUsername } from './util.js';
+import { actorInfo, actorMatchesUsername, replaceEmptyText } from './util.js';
 
 function getGuidFromPermalink(urlString) {
-  return urlString.match(/m\/([a-zA-Z0-9+/]+)/)[1];
+  return urlString.match(/(?:\/m\/)([a-zA-Z0-9+/]+)/)[1];
 }
 
 export async function signAndSend(message, name, domain, db, targetDomain, inbox) {
@@ -34,9 +34,10 @@ export function createNoteObject(bookmark, account, domain) {
     type: 'Note',
     published: d.toISOString(),
     attributedTo: `https://${domain}/u/${account}`,
-    content: `
-      <strong><a href="${bookmark.url}">${bookmark.title}</a></strong><br/>
-      ${bookmark.description?.replace('\n', '<br/>') || ''}`,
+    content: `<strong><a href="${bookmark.url}" rel="nofollow noopener noreferrer" target="_blank">${replaceEmptyText(
+      bookmark.title,
+      bookmark.url,
+    )}</a></strong><br/>${bookmark.description?.trim().replace('\n', '<br/>') || ''}`,
     to: [`https://${domain}/u/${account}/followers/`, 'https://www.w3.org/ns/activitystreams#Public'],
     tag: [],
   };
