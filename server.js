@@ -100,6 +100,17 @@ const hbs = create({
     setTitle(item) {
       return replaceEmptyText(item.title, item.url);
     },
+    bookmarkIsYouTubeURL(url) {
+      const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/gi;
+      return youtubeRegex.test(url);
+    },
+
+    // Helper to extract YouTube video ID from the URL
+    getYouTubeVideoID(url) {
+      const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/gi;
+      const match = youtubeRegex.exec(url);
+      return match ? match[1] : null;
+    },
   },
   partialsDir: './src/pages/partials',
   extname: '.hbs',

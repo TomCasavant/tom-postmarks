@@ -24,6 +24,15 @@
   </div>
   <div class="description">
     {{{htmlize bookmark.description}}}
+    {{!-- Check if the URL is a YouTube URL --}}
+    {{#if (bookmarkIsYouTubeURL bookmark.url)}}
+      {{!-- Extract the YouTube video ID --}}
+      {{#with (getYouTubeVideoID bookmark.url)}}
+      <div class="youtube-container">
+        <iframe src="https://www.youtube.com/embed/{{this}}"></iframe>
+      </div>
+      {{/with}}
+    {{/if}}
   </div>
   <div class="tags">
     {{#if tagged}}
