@@ -2,6 +2,7 @@ import fs from 'fs';
 import { readFile } from 'fs/promises';
 import chalk from 'chalk';
 import * as dotenv from 'dotenv';
+import axios from 'axios';
 
 dotenv.config();
 
@@ -146,3 +147,23 @@ export function simpleLogger(req, res, next) {
   }
   next();
 }
+
+export async function archiveUrlOnInternetArchive(url) {
+  try {
+    const apiUrl = 'https://web.archive.org/save/';
+    const response = await axios.post(apiUrl, null, { params: { url } });
+
+    if (response.status === 200) {
+      const snapshotTimestamp = new Date().toISOString().replace(/[:\-]/g, '').slice(0, -5);
+      const archiveUrl = `https://web.archive.org/web/${snapshotTimestamp}/${url}`;
+      console.log('URL archived successfully!');
+      console.log('Archive URL:', archiveUrl);
+    } else {
+      console.error('Failed to archive URL. HTTP Status:', response.status);
+    }
+  } catch (error) {
+    console.error('Error archiving URL:', error.message);
+  }
+}
+
+

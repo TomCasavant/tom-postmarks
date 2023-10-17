@@ -48,8 +48,8 @@
           </span>
         {{else}}
           <span class="tag">
-            <a href="/tagged/{{this}}">#{{this}}</a>
-            <a href="{{@root.path}}/{{this}}" class="tag-op tag-add">
+            <a href="/tagged/{{toLowerCase this}}">#{{this}}</a>
+            <a href="{{@root.path}}/{{toLowerCase this}}" class="tag-op tag-add">
               +
             </a>
           </span>
@@ -58,7 +58,7 @@
     {{else}}
       {{#each bookmark.tagNames}}
         <span class="tag">
-          <a href="/tagged/{{this}}">
+          <a href="/tagged/{{toLowerCase this}}">
             #{{this}}
           </a>
         </span>

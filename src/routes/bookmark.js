@@ -1,7 +1,7 @@
 import express from 'express';
 import ogScraper from 'open-graph-scraper';
 
-import { data, account, domain, removeEmpty } from '../util.js';
+import { data, account, domain, removeEmpty, archiveUrlOnInternetArchive } from '../util.js';
 import { broadcastMessage } from '../activitypub.js';
 import { isAuthenticated } from '../session-auth.js';
 
@@ -17,6 +17,7 @@ router.get('/new', isAuthenticated, async (req, res) => {
       url: decodeURI(req.query.url),
       description: '',
     };
+    
 
     if (req.query?.highlight !== undefined && req.query?.highlight !== '') {
       params.bookmark.description += `"${decodeURI(req.query.highlight)}"`;
@@ -31,6 +32,8 @@ router.get('/new', isAuthenticated, async (req, res) => {
     } catch (e) {
       console.log(`error fetching opengraph tags: ${e}`);
     }
+    
+    archiveUrlOnInternetArchive(params.bookmark.url)
   }
 
   if (req.query?.via !== undefined) {

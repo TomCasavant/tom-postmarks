@@ -1,6 +1,6 @@
 import express from 'express';
 import * as linkify from 'linkifyjs';
-import { data, actorInfo } from '../util.js';
+import { data, actorInfo, archiveUrlOnInternetArchive } from '../util.js';
 import { isAuthenticated } from '../session-auth.js';
 
 const router = express.Router();
@@ -61,6 +61,7 @@ router.get('/about', async (req, res) => {
 });
 
 router.get('/network', isAuthenticated, async (req, res) => {
+  
   const bookmarksDb = req.app.get('bookmarksDb');
 
   const posts = await bookmarksDb.getNetworkPosts();

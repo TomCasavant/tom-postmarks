@@ -83,7 +83,8 @@ const hbs = create({
       return process.env.MASTODON_ACCOUNT;
     },
     ifIn(item, array, options) {
-      return array.indexOf(item) >= 0 ? options.fn(this) : options.inverse(this);
+      const lowercased = array.map(tag => tag.toLowerCase());
+      return lowercased.indexOf(item.toLowerCase()) >= 0 ? options.fn(this) : options.inverse(this);
     },
     removeTag(tag, path) {
       return path
@@ -92,10 +93,13 @@ const hbs = create({
         .join('/');
     },
     ifThisTag(tag, path, options) {
-      return path === `/tagged/${tag}` ? options.fn(this) : options.inverse(this);
+      return path.toLowerCase()  === `/tagged/${tag}`.toLowerCase ? options.fn(this) : options.inverse(this);
     },
     eq(a, b, options) {
       return a === b ? options.fn(this) : options.inverse(this);
+    },
+    toLowerCase(a) {
+      return a.toLowerCase();
     },
     setTitle(item) {
       return replaceEmptyText(item.title, item.url);
@@ -111,6 +115,7 @@ const hbs = create({
       const match = youtubeRegex.exec(url);
       return match ? match[1] : null;
     },
+    
   },
   partialsDir: './src/pages/partials',
   extname: '.hbs',

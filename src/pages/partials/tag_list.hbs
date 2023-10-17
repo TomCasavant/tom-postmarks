@@ -1,7 +1,7 @@
 <ul class="tag-list">
   {{#each tags}}
     <li>
-      <a href="/tagged/{{this}}">
+      <a href="/tagged/{{toLowerCase this}}">
         #{{this}}
       </a>
     </li>
