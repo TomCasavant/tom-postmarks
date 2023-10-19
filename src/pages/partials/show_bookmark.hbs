@@ -21,6 +21,13 @@
     <span class="bookmark-domain">
       {{bookmark.domain}}
     </span>
+    {{#if bookmark.created_at}}
+      {{#with (convertToWaybackMachineTimestamp bookmark.created_at bookmark.url)}}
+        <a href="https://web.archive.org/web/{{this}}" class="web-archive-link" target="_blank" rel="noopener noreferrer">
+          (Archive)
+        </a>
+      {{/with}}
+    {{/if}}
   </div>
   <div class="description">
     {{{htmlize bookmark.description}}}
@@ -48,8 +55,8 @@
           </span>
         {{else}}
           <span class="tag">
-            <a href="/tagged/{{toLowerCase this}}">#{{this}}</a>
-            <a href="{{@root.path}}/{{toLowerCase this}}" class="tag-op tag-add">
+            <a href="/tagged/{{this}}">#{{this}}</a>
+            <a href="{{@root.path}}/{{this}}" class="tag-op tag-add">
               +
             </a>
           </span>
@@ -58,7 +65,7 @@
     {{else}}
       {{#each bookmark.tagNames}}
         <span class="tag">
-          <a href="/tagged/{{toLowerCase this}}">
+          <a href="/tagged/{{this}}">
             #{{this}}
           </a>
         </span>
