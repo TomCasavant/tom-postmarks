@@ -48,19 +48,12 @@ html {
   font-size: var(--font-size);
 }
 
-
-/*.link-span::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: red; /* Add background color to visualize the span 
-  opacity: 0.5; /* Optional: Add opacity for transparency 
-  pointer-events: none; /* Allow clicks to go through the pseudo-element
-}*/
-  
+.btn-section{
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
 
 .btn--remix {
   font-family: 'Public Sans', sans-serif;
@@ -87,6 +80,11 @@ html {
 
 .btn--remix:hover {
   background: linear-gradient(var(--color-background-grad), var(--color-background), var(--color-link));
+}
+
+.btn--github img, .btn--feed img{
+  width: 2rem;
+  aspect-ratio: 1;
 }
 
 .footer {

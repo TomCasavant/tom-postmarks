@@ -27,7 +27,8 @@
     "sqlite": "^5.0.1",
     "sqlite3": "^5.1.5",
     "string-strip-html": "^13.4.2",
-    "axios": "^1.5.1"
+    "axios": "^1.5.1",
+    "escape-html": "^1.0.3"
   },
   "engines": {
     "node": ">=16.x"
