@@ -21,6 +21,13 @@
     <span class="bookmark-domain">
       {{bookmark.domain}}
     </span>
+    {{#if bookmark.created_at}}
+      {{#with (convertToWaybackMachineTimestamp bookmark.created_at bookmark.url)}}
+        <a href="https://web.archive.org/web/{{this}}" class="web-archive-link" target="_blank" rel="noopener noreferrer">
+          (Archive)
+        </a>
+      {{/with}}
+    {{/if}}
   </div>
   <div class="description">
     {{{htmlize bookmark.description}}}

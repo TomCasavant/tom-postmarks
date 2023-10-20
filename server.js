@@ -83,16 +83,17 @@ const hbs = create({
       return process.env.MASTODON_ACCOUNT;
     },
     ifIn(item, array, options) {
-      return array.indexOf(item) >= 0 ? options.fn(this) : options.inverse(this);
+      const lowercased = array.map(tag => tag.toLowerCase());
+      return lowercased.indexOf(item.toLowerCase()) >= 0 ? options.fn(this) : options.inverse(this);
     },
     removeTag(tag, path) {
       return path
         .split('/')
-        .filter((x) => x !== tag)
+        .filter((x) => x.toLowerCase() !== tag.toLowerCase())
         .join('/');
     },
     ifThisTag(tag, path, options) {
-      return path === `/tagged/${tag}` ? options.fn(this) : options.inverse(this);
+      return path.toLowerCase()  === `/tagged/${tag}`.toLowerCase() ? options.fn(this) : options.inverse(this);
     },
     eq(a, b, options) {
       return a === b ? options.fn(this) : options.inverse(this);
@@ -111,6 +112,26 @@ const hbs = create({
       const match = youtubeRegex.exec(url);
       return match ? match[1] : null;
     },
+    convertToWaybackMachineTimestamp(timestamp, url) {
+      let convertedTimestamp = '';
+
+      // Check if the timestamp has the correct length
+      if (timestamp && timestamp.length === 19) {
+        const year = timestamp.slice(0, 4);
+        const month = timestamp.slice(5, 7);
+        const day = timestamp.slice(8, 10);
+        const hour = timestamp.slice(11, 13);
+        const minute = timestamp.slice(14, 16);
+        const second = timestamp.slice(17, 19);
+
+        convertedTimestamp = `${year}${month}${day}${hour}${minute}${second}`;
+      }
+      if (convertedTimestamp && url) {
+        return `${convertedTimestamp}/${url}`;
+      }
+      return convertedTimestamp;
+    },
+    
   },
   partialsDir: './src/pages/partials',
   extname: '.hbs',

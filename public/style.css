@@ -491,6 +491,10 @@ a.bookmark-date {
   content: "• ";
 }
 
+.web-archive-link {
+  font-size: 8px
+}
+
 .form-group:not(:last-child) {
   margin-bottom: 1rem;
 }
