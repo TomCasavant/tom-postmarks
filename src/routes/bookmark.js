@@ -33,7 +33,6 @@ router.get('/new', isAuthenticated, async (req, res) => {
       console.log(`error fetching opengraph tags: ${e}`);
     }
     
-    archiveUrlOnInternetArchive(params.bookmark.url)
   }
 
   if (req.query?.via !== undefined) {
@@ -255,6 +254,10 @@ router.post('/:id?', isAuthenticated, async (req, res) => {
       description: mergedObject.description?.trim() || '',
       tags,
     });
+    
+    if (bookmark.url) {
+      archiveUrlOnInternetArchive(bookmark.url)
+    }
 
     broadcastMessage(bookmark, 'create', apDb, account, domain);
   }
