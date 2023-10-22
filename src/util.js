@@ -149,21 +149,33 @@ export function simpleLogger(req, res, next) {
 }
 
 export async function archiveUrlOnInternetArchive(url) {
-  try {
-    const apiUrl = 'https://web.archive.org/save/';
-    const response = await axios.post(apiUrl, null, { params: { url } });
+  const access = process.env.ARCHIVE_ACCESS
+  const secret = process.env.ARCHIVE_SECRET
+  if (access && secret) {
+      try {
+        const apiUrl = 'https://web.archive.org/save/';
+        const data = `url=${url}&capture_all=1&delay_wb_availability=1&skip_first_archive=1`;
 
-    if (response.status === 200) {
-      const snapshotTimestamp = new Date().toISOString().replace(/[:\-]/g, '').slice(0, -5);
-      const archiveUrl = `https://web.archive.org/web/${snapshotTimestamp}/${url}`;
-      console.log('URL archived successfully!');
-      console.log('Archive URL:', archiveUrl);
-    } else {
-      console.error('Failed to archive URL. HTTP Status:', response.status);
-    }
-  } catch (error) {
-    console.error('Error archiving URL:', error.message);
+        const response = await axios.post(apiUrl, data, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': `LOW ${access}:${secret}`,
+            'Accept': 'application/json',
+          },
+        });
+
+        if (response.status === 200) {
+          // Handle success
+          console.log(response)
+          console.log('URL archived successfully!');
+        } else {
+          console.error('Failed to archive URL. HTTP Status:', response.status);
+        }
+      } catch (error) {
+        console.error('Error archiving URL:', error.message);
+      }
+  } else {
+    console.error("No Archive access")
   }
 }
-
 
