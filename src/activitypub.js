@@ -51,7 +51,7 @@ export function createNoteObject(bookmark, account, domain) {
     content: `<strong><a href="${updatedBookmark.url}" rel="nofollow noopener noreferrer" target="_blank">${replaceEmptyText(
       updatedBookmark.title,
       updatedBookmark.url,
-    )}</a></strong><br/>${updatedBookmark.description?.trim().replace('\n', '<br/>') || ''}<p>${linkedTags}</p>`,
+    )}</a></strong><br/>${updatedBookmark.description?.trim().replace('\n', '<br/>') || ''}`, // <p>${linkedTags}</p>`, // Uncomment to append tags to note
     to: [`https://${domain}/u/${account}/followers/`, 'https://www.w3.org/ns/activitystreams#Public'],
     tag: [],
   };
