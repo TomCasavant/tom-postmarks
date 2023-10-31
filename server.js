@@ -114,6 +114,27 @@ const hbs = create({
       const match = youtubeRegex.exec(url);
       return match ? match[1] : null;
     },
+    getGithubEmbed(url) {
+      const githubRepoRegex = /github\.com\/([^/]+)\/([^/]+)/i;
+      if (githubRepoRegex.test(url)) {
+        const match = url.match(githubRepoRegex);
+        const username = match[1];
+        const reponame = match[2];
+        return [username, reponame];
+      } else {
+        return null;
+      }
+    },
+    getSpotifySrcURL(url) {
+      const trackRegex = /spotify\.com\/track\/([^?/]+)/;
+      const episodeRegex = /spotify\.com\/episode\/([^?/]+)/;
+      if (trackRegex.test(url)) {
+        return `https://open.spotify.com/embed/track/${trackRegex.exec(url)[1]}?utm_source=generator`;
+      } else if (episodeRegex.test(url)) {
+        return `https://open.spotify.com/embed/episode/${episodeRegex.exec(url)[1]}?utm_source=generator`;
+      }
+      return null;
+    },
     convertToWaybackMachineTimestamp(timestamp, url) {
       let convertedTimestamp = '';
 

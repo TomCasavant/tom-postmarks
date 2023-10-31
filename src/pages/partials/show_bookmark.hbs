@@ -31,14 +31,25 @@
   </div>
   <div class="description">
     {{{htmlize bookmark.description}}}
-    {{!-- Check if the URL is a YouTube URL --}}
-    {{#if (bookmarkIsYouTubeURL bookmark.url)}}
-      {{!-- Extract the YouTube video ID --}}
-      {{#with (getYouTubeVideoID bookmark.url)}}
-      <div class="youtube-container">
-        <iframe src="https://www.youtube.com/embed/{{this}}"></iframe>
-      </div>
+    {{#if (getGithubEmbed bookmark.url)}}
+      {{#with (getGithubEmbed bookmark.url)}}
+        <div class="github-card" data-user="{{this.[0]}}" data-repo="{{this.[1]}}"></div>
+        {{!-- Github generation not working, possible solution will be to manually make github API calls to generate card, might be inefficient--}}
       {{/with}}
+    {{else if (bookmarkIsYouTubeURL bookmark.url)}}
+      {{#with (getYouTubeVideoID bookmark.url)}}
+        <div class="youtube-container">
+          <iframe src="https://www.youtube.com/embed/{{this}}"></iframe>
+        </div>
+      {{/with}}
+    {{else if (getSpotifySrcURL bookmark.url)}}
+      {{#with (getSpotifySrcURL bookmark.url)}}
+        <div class="spotify-container">
+         <iframe class="spotify-iframe" src="{{this}}"></iframe>
+        </div>
+      {{/with}}
+    {{else}}
+      {{!-- Handle other types of URLs or content --}}
     {{/if}}
   </div>
   <div class="tags">
