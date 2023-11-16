@@ -1,12 +1,12 @@
 @font-face {
   font-family: 'Public Sans';
-  src: url('/PublicSans-VariableFont_wght.ttf');
+  src: url('/PublicSans-VariableFont_wght.woff2');
 }
 
 @font-face {
   font-family: 'Public Sans';
   font-style: italic;
-  src: url('/PublicSans-Italic-VariableFont_wght.ttf');
+  src: url('/PublicSans-Italic-VariableFont_wght.woff2');
 }
 
 :root {
@@ -441,7 +441,11 @@ p.error a {
 .tag-list {
   list-style: none;
   border-right: .05rem solid var(--color-logo-text);
+  overflow: hidden; /* Ensure the overflow is hidden for the tag-list */
+  max-width: 100%; /* Adjust the width as needed */
+  flex-shrink: 0; /* Ensure the tag-list doesn't shrink */
 }
+
 
 .tag-list a {
   color: var(--color-dimmed);
@@ -493,10 +497,6 @@ p.error a {
 
 .followers .follower .actions {
   height: auto;
-}
-
-.network-post {
-  border-bottom: 1px solid #000000;
 }
 
 a.bookmark-date {
@@ -584,4 +584,59 @@ a.bookmark-date {
 
 .pagination span + span:before {
   content: " • ";
+}
+
+.network-post {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border-radius: 10px; 
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5); 
+  position: relative;
+ line-height: 1.8em;
+}
+
+.network-post-content * {
+  font-size: .950rem;
+  line-height: 1.3rem;
+}
+
+.network-post-content .invisible {
+  display:none;
+}
+
+.network-post-content .ellipsis::after {
+  content: '...';
+}
+
+.network-post-content .hashtag {
+  text-decoration: underline;
+}
+
+.network-post-content a:hover {
+  text-decoration: underline;
+}
+
+.network-post-links a:first-child::before {
+  content: '🔖';
+}
+
+.network-post-links a {
+  border: solid var(--color-accent) 1px;
+  border-radius: 15px 15px 15px 15px;
+  padding:8px;
+  margin-right:10px;
+}
+
+.network-post-links a:nth-child(2)::before {
+  content: '🔗';
+}
+
+.network-post-credit {
+  padding: 2px;
+  padding-left: 15px;
+  background-color: var(--color-background);
+  filter: brightness(.90);  
+  font-size: small;
+  border-radius: 15px 15px 15px 15px;  
+  margin-bottom: 15px;
 }
