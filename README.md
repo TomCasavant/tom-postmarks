@@ -22,6 +22,7 @@
 - Tags not appended to the end of description in notes (I think the federated posts look cleaner with hidden tags)
 
 ### Features
+- Spotify URLs are detected and converted into embedded iframes 
 - Youtube URLs are detected and converted into embedded iframes (TODO: Add in ability to opt-out of seeing embeded videos) 
 - Bookmarked URLs (should be) archived on on the [Internet Archive](https://web.archive.org/) when created. The following function was added in based on the description here [https://foxrow.com/til-api-for-saving-webpages-in-the-wayback-machine](https://foxrow.com/til-api-for-saving-webpages-in-the-wayback-machine) and requires the environment variables ARCHIVE_ACCESS and ARCHIVE_SECRET to be set 
 ```js

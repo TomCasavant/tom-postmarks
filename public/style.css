@@ -441,7 +441,11 @@ p.error a {
 .tag-list {
   list-style: none;
   border-right: .05rem solid var(--color-logo-text);
+  overflow: hidden; /* Ensure the overflow is hidden for the tag-list */
+  max-width: 100%; /* Adjust the width as needed */
+  flex-shrink: 0; /* Ensure the tag-list doesn't shrink */
 }
+
 
 .tag-list a {
   color: var(--color-dimmed);
