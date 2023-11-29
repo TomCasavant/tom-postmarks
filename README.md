@@ -23,7 +23,7 @@
 
 - Tags not appended to the end of description in notes (I think the federated posts look cleaner with hidden tags)
 
-## Admin
+### Admin
 
 - Added /admin/comments which displays all comments across all bookmarks on a single page for easy approval
   - TODO: Filter by only currently hidden comments
