@@ -1,30 +1,40 @@
-
 # Tom-Postmarks
+
 [Postmarks](https://github.com/ckolderup/postmarks) instance customized for me located at [https://tomcasavant.glitch.me/](https://tomcasavant.glitch.me/) or can be remixed on [glitch](https://glitch.com/edit/#!/tomcasavant)
 
 ## Differences:
+
 ### UI
 
--  Background changed to a linear gradient between #2e3547 ![#2e3547](https://readme-swatches.vercel.app/2e3547) and #382429 ![#382429 ](https://readme-swatches.vercel.app/382429)
+- Background changed to a linear gradient between #2e3547 ![#2e3547](https://readme-swatches.vercel.app/2e3547) and #382429 ![#382429 ](https://readme-swatches.vercel.app/382429)
 - Header and logo (accent) color changed to #996666 ![#996666 ](https://readme-swatches.vercel.app/996666)
-- Link Colors changed to #425d76 ![#425d76 ](https://readme-swatches.vercel.app/425d76 )
-- Description colors changed to #885555 ![#885555 ](https://readme-swatches.vercel.app/885555 )
+- Link Colors changed to #425d76 ![#425d76 ](https://readme-swatches.vercel.app/425d76)
+- Description colors changed to #885555 ![#885555 ](https://readme-swatches.vercel.app/885555)
 - "Remix on Glitch" button changed to linear gradient between #2e3547 ![#2e3547](https://readme-swatches.vercel.app/2e3547) and #382429 ![#382429 ](https://readme-swatches.vercel.app/382429)
 - Tags colored with #756f70 ![#756f70 ](https://readme-swatches.vercel.app/756f70)
 - Bookmarks have a shadow added to them
 - Blog Title and links centered on page
 - Mobile UI hides the tags (TODO: Figure out a better solution for mobile tags, I'd still like to be able to select them)
 - Internet Archive link added next to Bookmark link
-- Border added below header and beside tag list 
-- Activitypub username (@user@domain) added below the site title 
+- Border added below header and beside tag list
+- Activitypub username (@user@domain) added below the site title
 
 ### ActivityPub
+
 - Tags not appended to the end of description in notes (I think the federated posts look cleaner with hidden tags)
 
+## Admin
+
+- Added /admin/comments which displays all comments across all bookmarks on a single page for easy approval
+  - TODO: Filter by only currently hidden comments
+  - The timestamp links to the bookmark (TODO: Add bookmark title/link next to comment?)
+
 ### Features
-- Spotify URLs are detected and converted into embedded iframes 
-- Youtube URLs are detected and converted into embedded iframes (TODO: Add in ability to opt-out of seeing embeded videos) 
-- Bookmarked URLs (should be) archived on on the [Internet Archive](https://web.archive.org/) when created. The following function was added in based on the description here [https://foxrow.com/til-api-for-saving-webpages-in-the-wayback-machine](https://foxrow.com/til-api-for-saving-webpages-in-the-wayback-machine) and requires the environment variables ARCHIVE_ACCESS and ARCHIVE_SECRET to be set 
+
+- Spotify URLs are detected and converted into embedded iframes
+- Youtube URLs are detected and converted into embedded iframes (TODO: Add in ability to opt-out of seeing embeded videos)
+- Bookmarked URLs (should be) archived on on the [Internet Archive](https://web.archive.org/) when created. The following function was added in based on the description here [https://foxrow.com/til-api-for-saving-webpages-in-the-wayback-machine](https://foxrow.com/til-api-for-saving-webpages-in-the-wayback-machine) and requires the environment variables ARCHIVE_ACCESS and ARCHIVE_SECRET to be set
+
 ```js
 export async function archiveUrlOnInternetArchive(url) {
   const access = process.env.ARCHIVE_ACCESS
@@ -58,6 +68,7 @@ export async function archiveUrlOnInternetArchive(url) {
 ```
 
 ---
+
 # Postmarks
 
 ## About this project
