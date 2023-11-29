@@ -234,6 +234,15 @@ router.post('/', async function (req, res) {
     }
     return handleFollowedPost(req, res);
   }
+  if (req.body.type === 'Announce') {
+    console.log('Incoming Boost!');
+    // Determine if this is a boost on one of my bookmarks, or if someone boosted something into my feed
+  }
+  if (req.body.type === 'Like') {
+    console.log('Incoming Like!');
+    // Record the like
+  }
+  
   return res.sendStatus(400);
 });
 
