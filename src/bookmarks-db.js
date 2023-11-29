@@ -355,6 +355,17 @@ export async function getAllCommentsForBookmark(bookmarkId) {
   return undefined;
 }
 
+export async function getAllComments() {
+  try {
+    const results = await db.all('SELECT * FROM comments WHERE bookmark_id IS NOT NULL');
+    return results.map((c) => massageComment(c));
+  } catch (dbError) {
+    console.error(dbError);
+  }
+  return undefined;
+}
+
+
 export async function getVisibleCommentsForBookmark(bookmarkId) {
   try {
     const results = await db.all('SELECT * FROM comments WHERE visible = 1 AND bookmark_id = ?', bookmarkId);

@@ -13,6 +13,7 @@ const ADMIN_LINKS = [
   { href: '/admin/followers', label: 'Permissions & followers' },
   { href: '/admin/following', label: 'Federated follows' },
   { href: '/admin/data', label: 'Data export' },
+  { href: '/admin/comments', label: 'Comments' }
 ];
 
 const router = express.Router();
@@ -266,4 +267,15 @@ router.post('/reset', isAuthenticated, async (req, res) => {
   res.redirect('/admin');
 });
 
+router.get('/comments', isAuthenticated, async (req, res) => {
+
+  const params = req.query.raw ? {} : { ephemeral: false };
+  const bookmarksDb = req.app.get('bookmarksDb');
+  const apDb = req.app.get('apDb');
+  const comments = await bookmarksDb.getAllComments();
+  params.comments = comments
+
+  return res.render('admin/comments', params);
+});
+           
 export default router;
