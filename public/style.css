@@ -266,7 +266,7 @@ textarea {
 }
 
 label {
-  color: currentColor;
+  color: var(--color-accent);
   font-weight: normal;
   font-size: 1rem;
   line-height: 1.25rem;
@@ -284,6 +284,10 @@ h3 {
 
 p, ol, ul, form {
   margin-bottom: 1rem;
+}
+
+form p {
+  color: var(--color-dimmed)
 }
 
 p.error {
@@ -479,6 +483,7 @@ p.error a {
   padding: calc(.25rem - 1px);
   border: 1px solid black;
   border-radius: .5rem 0 0 .5rem;
+  color: var(--color-dimmed)
 }
 
 #taggedList .tagged:before {
@@ -522,6 +527,10 @@ a.bookmark-date {
 
 .form-group summary label {
   display: inline;
+}
+
+.form-group summary {
+  color: var(--color-accent)
 }
 
 .pagination {
