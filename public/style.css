@@ -395,11 +395,22 @@ p.error a {
 
 .comment {
   margin-bottom: 2rem;
+  margin-left: 1em;
+  border-radius: 0px; /* Adjust the border radius for rounded corners */
+  box-shadow: 5px -5px 10px rgba(0, 0, 0, 1); /* Add a box shadow */
+  font-size: 0.9rem;
+}
+
+.comment .content {
+  margin-left: 0.15em;
+  font-size: 1em;
 }
 
 .comment .top {
-  font-size: 1rem;
+  font-size: 1.15rem;
   line-height: 1.25rem;
+  margin-left: 0.5em;
+  
 }
 .comment .top .timestamp:before {
   content: "• ";

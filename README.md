@@ -22,6 +22,7 @@
 ### ActivityPub
 
 - Tags not appended to the end of description in notes (I think the federated posts look cleaner with hidden tags)
+- Added in profile fields 
 
 ### Admin
 

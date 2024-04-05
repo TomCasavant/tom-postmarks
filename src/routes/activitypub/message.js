@@ -24,7 +24,7 @@ router.get('/:guid', async (req, res) => {
   }
 
   const result = await db.getMessage(guid);
-
+  console.log(result)
   if (result === undefined) {
     return res.status(404).send(`No message found for ${guid}.`);
   }
