@@ -4,6 +4,7 @@ import escapeHTML from 'escape-html';
 
 import { signedGetJSON, signedPostJSON } from './signature.js';
 import { actorInfo, actorMatchesUsername, replaceEmptyText } from './util.js';
+import * as apDb from './activity-pub-db.js'
 
 function getGuidFromPermalink(urlString) {
   return urlString.match(/(?:\/m\/)([a-zA-Z0-9+/]+)/)[1];
@@ -155,6 +156,7 @@ export async function createFollowMessage(account, domain, target, db) {
   return followMessage;
 }
 
+
 export async function createUnfollowMessage(account, domain, target, db) {
   const undoGuid = crypto.randomBytes(16).toString('hex');
 
@@ -264,6 +266,35 @@ export async function broadcastMessage(bookmark, action, db, account, domain) {
       const targetDomain = myURL.host;
       signAndSend(message, account, domain, db, targetDomain, inbox);
     }
+  }
+}
+
+export async function updateProfile(actorJson, domain, account) {
+  if (actorInfo.disabled) {
+    return; // no fediverse setup, so no purpose trying to send messages
+  }
+  const guidUpdate = crypto.randomBytes(16).toString('hex');
+  const updateMessage = {
+    '@context': ['https://www.w3.org/ns/activitystreams', 'https://w3id.org/security/v1'],
+    type: 'Update',
+    id: `https://${domain}/m/${guidUpdate}`,
+    actor: `https://${domain}/u/${account}`,
+    to: ['https://www.w3.org/ns/activitystreams#Public'],
+    object: actorJson,
+    
+  };
+  console.log(`https://${domain}/m/${guidUpdate}`)
+  apDb.insertMessage(guidUpdate, null, JSON.stringify(updateMessage));
+  const result = await apDb.getFollowers();
+  const followers = JSON.parse(result);
+  // eslint-disable-next-line no-restricted-syntax
+  for (const follower of followers) {
+      //const inbox = `${follower}/inbox`;
+      const myURL = new URL(follower);
+      const targetDomain = myURL.host;
+      const inbox = `https://${targetDomain}/inbox`;
+      console.log(inbox)
+      signAndSend(updateMessage, account, domain, apDb, targetDomain, inbox);
   }
 }
 

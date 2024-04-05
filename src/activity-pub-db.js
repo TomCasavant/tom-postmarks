@@ -11,7 +11,7 @@ import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
 import crypto from 'crypto';
 import { account, domain, actorInfo } from './util.js';
-
+import { updateProfile } from './activitypub.js'
 const dbFile = './.data/activitypub.db';
 let db;
 
@@ -33,6 +33,7 @@ function actorJson(pubkey) {
     outbox: `https://${domain}/u/${account}/outbox`,
     followers: `https://${domain}/u/${account}/followers`,
     following: `https://${domain}/u/${account}/following`,
+    attachment: actorInfo.attachment,
 
     publicKey: {
       id: `https://${domain}/u/${account}#main-key`,
@@ -245,6 +246,7 @@ function setup() {
       const publicKey = await getPublicKey();
       const actorRecord = actorJson(publicKey);
       await db.run('UPDATE accounts SET name = ?, actor = ?', actorName, JSON.stringify(actorRecord));
+      //updateProfile(actorRecord, domain, account)
     } catch (dbError) {
       console.error(dbError);
     }

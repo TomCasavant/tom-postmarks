@@ -2,5 +2,17 @@
   "username": "tom",
   "avatar": "https://cdn.glitch.global/8eaf209c-2fa9-4353-9b99-e8d8f3a5f8d4/postmarks-logo-white-small.png?v=1693610556689",
   "displayName": "Tom's Bookmarks",
-  "description": "An ActivityPub bookmarking and sharing site built with Postmarks"
+  "description": "An ActivityPub bookmarking and sharing site built with <a href='https://github.com/ckolderup/postmarks' target='_blank' rel='nofollow noopener noreferrer me'>Postmarks</a>.",
+  "attachment": [
+    {
+      "type": "PropertyValue",
+      "name": "Maintainer",
+      "value": "<a href='https://tomkahe.com/@tom' target='_blank' rel='nofollow noopener noreferrer me'>@tom@tomkahe.com</a>"
+    },
+    {
+      "type": "PropertyValue",
+      "name": "Source Code",
+      "value": "<a href='https://github.com/tomcasavant/tom-postmarks' target='_blank' rel='nofollow noopener noreferrer me'>https://github.com/tomcasavant/tom-postmarks</a>"
+    }
+  ]
 }

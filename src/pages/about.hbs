@@ -12,8 +12,19 @@
   <div class="bio">
     <img class="avatar" src="{{actorInfo.avatar}}" />
     <p>
-      {{actorInfo.description}}
+      {{{actorInfo.description}}}
+      <table>
+      <tbody>
+        {{#each actorInfo.attachment}}
+        <tr>
+          <td>{{name}}: </td>
+          <td>{{{value}}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+  </table>
     </p>
+
   </div>
   <h2>
     Follow on the Fediverse
