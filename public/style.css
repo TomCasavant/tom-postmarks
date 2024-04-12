@@ -35,7 +35,6 @@
 }
 
 .visually-hidden {
-  clip: rect(0 0 0 0);
   clip-path: inset(50%);
   height: 1px;
   overflow: hidden;
@@ -84,7 +83,7 @@ html {
 
 .btn--github img, .btn--feed img{
   width: 2rem;
-  aspect-ratio: 1;
+  aspect-ratio: 1/1;
 }
 
 .footer {
@@ -186,6 +185,7 @@ h1 {
   line-height: 3.15rem;
   margin: 0 0 2rem;
 }
+
 
 .description {
   color: var(--color-description);
@@ -471,13 +471,19 @@ p.error a {
 .bio {
   display: grid;
   grid-gap: 0.3125rem;
-  grid-template-columns: 7.8125rem auto;
+  grid-template-columns: auto auto;
   grid-gap: 1rem;
   margin-bottom: 1rem;
 }
 
 .bio .avatar {
   width: 7.8125rem;
+}
+
+.attachments {
+  font-size: 1rem;
+  border-collapse: separate; 
+  border-spacing: 10px; 
 }
 
 #taggedList {
@@ -609,8 +615,8 @@ a.bookmark-date {
 .network-post {
   margin-bottom: 2rem;
   padding: 1.5rem;
-  border-radius: 10px; 
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5); 
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
   position: relative;
  line-height: 1.8em;
 }
@@ -655,8 +661,8 @@ a.bookmark-date {
   padding: 2px;
   padding-left: 15px;
   background-color: var(--color-background);
-  filter: brightness(.90);  
+  filter: brightness(.90);
   font-size: small;
-  border-radius: 15px 15px 15px 15px;  
+  border-radius: 15px 15px 15px 15px;
   margin-bottom: 15px;
 }
