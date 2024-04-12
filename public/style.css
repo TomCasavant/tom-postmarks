@@ -471,7 +471,7 @@ p.error a {
 .bio {
   display: grid;
   grid-gap: 0.3125rem;
-  grid-template-columns: auto auto;
+  grid-template-columns: 7.8125rem auto;
   grid-gap: 1rem;
   margin-bottom: 1rem;
 }
