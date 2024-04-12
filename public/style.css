@@ -186,6 +186,7 @@ h1 {
   margin: 0 0 2rem;
 }
 
+
 .description {
   color: var(--color-description);
 }
@@ -470,13 +471,19 @@ p.error a {
 .bio {
   display: grid;
   grid-gap: 0.3125rem;
-  grid-template-columns: 7.8125rem auto;
+  grid-template-columns: auto auto;
   grid-gap: 1rem;
   margin-bottom: 1rem;
 }
 
 .bio .avatar {
   width: 7.8125rem;
+}
+
+.attachments {
+  font-size: 1rem;
+  border-collapse: separate; 
+  border-spacing: 10px; 
 }
 
 #taggedList {
