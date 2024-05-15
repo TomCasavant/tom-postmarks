@@ -7,6 +7,10 @@ import { signAndSend, getInboxFromActorProfile } from '../../activitypub.js';
 import { signedGetJSON } from '../../signature.js';
 
 const router = express.Router();
+router.use((req, res, next) => {
+  res.setHeader('Content-Type', 'application/activity+json');
+  next();
+});
 
 async function sendAcceptMessage(thebody, name, domain, req, res, targetDomain) {
   const db = req.app.get('apDb');
@@ -122,6 +126,39 @@ async function handleFollowAccepted(req, res) {
   }
 }
 
+async function handleCommentOnComment(req, res, inReplyToID) {
+  console.log("Handling reply to comment")
+  const bookmarksDb = req.app.get('bookmarksDb');
+
+  try {
+    const comment = await bookmarksDb.getCommentIdFromMessageID(inReplyToID);
+
+    if (comment) {
+      console.log("Handling reply to comment: FOUND COMMENT")
+      console.log(comment);
+      const bookmarkId = comment.bookmark_id
+      const commentUrl = req.body.object.id;
+      const response = await signedGetJSON(req.body.actor);
+      const data = await response.json();
+
+      const actorDomain = new URL(req.body.actor)?.hostname;
+      const actorUsername = data.preferredUsername;
+      const actor = `@${actorUsername}@${actorDomain}`;
+      console.log("Handling reply to comment: CREATING COMMENT")
+      console.log(bookmarkId, commentUrl, inReplyToID, req.body.object.content);
+      await bookmarksDb.createComment(bookmarkId, actor, commentUrl, req.body.object.content, 0, inReplyToID);
+      console.log("Handling reply to comment: SUCCESS")
+      res.status(200).json({ message: 'Comment created successfully.' });
+    } else {
+      res.status(404).json({ message: 'Referenced comment not found.' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'An error occurred while creating the comment.' });
+  }
+}
+
+
 async function handleCommentOnBookmark(req, res, inReplyToGuid) {
   const apDb = req.app.get('apDb');
 
@@ -227,10 +264,13 @@ router.post('/', async function (req, res) {
     console.log(JSON.stringify(req.body));
 
     const domain = req.app.get('domain');
+    console.log(req.body.object?.inReplyTo)
     const inReplyToGuid = req.body.object?.inReplyTo?.match(`https://${domain}/m/(.+)`)?.[1];
 
     if (inReplyToGuid) {
       return handleCommentOnBookmark(req, res, inReplyToGuid);
+    } else if (req.body.object?.inReplyTo) {
+      return handleCommentOnComment(req, res, req.body.object?.inReplyTo)
     }
     return handleFollowedPost(req, res);
   }

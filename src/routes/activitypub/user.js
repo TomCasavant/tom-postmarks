@@ -2,6 +2,10 @@ import express from 'express';
 import { synthesizeActivity } from '../../activitypub.js';
 
 const router = express.Router();
+router.use((req, res, next) => {
+  res.setHeader('Content-Type', 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"');
+  next();
+});
 
 router.get('/:name', async (req, res) => {
   let { name } = req.params;

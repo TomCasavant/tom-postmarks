@@ -401,6 +401,14 @@ p.error a {
   font-size: 0.9rem;
 }
 
+.reply-comment {
+  margin-bottom: 2rem;
+  margin-left: 2.5em;
+  border-radius: 0px; /* Adjust the border radius for rounded corners */
+  box-shadow: 5px -5px 10px rgba(0, 0, 0, 1); /* Add a box shadow */
+  font-size: 0.9rem;
+}
+
 .comment .content {
   margin-left: 0.15em;
   font-size: 1em;

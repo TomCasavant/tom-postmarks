@@ -9,7 +9,12 @@
 {{#unless creating}}
   <h2>Review comments</h2>
   {{#each comments}}
-    {{> show_comment comment=this admin=true}}
+    {{#unless inReplyTo}}
+      {{> show_comment comment=this admin=true}}
+    {{/unless}}
+    {{#if inReplyTo}}
+      {{> show_comment comment=this reply=true admin=true}}
+    {{/if}}
   {{else}}
     No comments yet!
   {{/each}}

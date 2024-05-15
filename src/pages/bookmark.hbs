@@ -12,7 +12,14 @@
     {{pluralize bookmark.comment_count "comment" "comments"}}
   </h2>
 
-  {{#each comments }}
-    {{> show_comment comment=this }}
-  {{/each}}
+  <div class="comments-list">
+    {{#each comments }}
+        {{#unless inReplyTo}}
+          {{> show_comment comment=this }}
+        {{/unless}}
+        {{#if inReplyTo}}
+          {{> show_comment comment=this reply=true}}
+        {{/if}}
+    {{/each}}
+  </div>
 {{/if}}

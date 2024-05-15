@@ -51,8 +51,13 @@ function webfingerJson() {
       {
         rel: 'self',
         type: 'application/activity+json',
-        href: `https://${domain}/u/${account}`,
+        href: `https://${domain}`,
       },
+      {
+        rel: 'inbox',
+        type: 'application/activity+json',
+        href: `https://${domain}/api/inbox`
+      }
     ],
   };
 }
@@ -90,6 +95,7 @@ export async function getActor() {
 }
 
 export async function getWebfinger() {
+  return JSON.stringify(webfingerJson());
   const result = await db?.get('select webfinger from accounts limit 1');
   return result?.webfinger;
 }
