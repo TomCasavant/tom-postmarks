@@ -87,6 +87,7 @@ open({
   db = dBase;
 
   try {
+    //await db.run('ALTER TABLE comments ADD COLUMN inReplyTo TEXT DEFAULT NULL');
     if (!exists) {
       // eslint-disable-next-line no-bitwise
       const newDb = new sqlite3.Database(dbFile, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
@@ -133,7 +134,7 @@ open({
       ];
 
       await db.run(
-        'CREATE TABLE comments (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, url TEXT, content TEXT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP, visible integer BOOLEAN DEFAULT 0 NOT NULL CHECK (visible IN (0,1)), bookmark_id INTEGER, FOREIGN KEY(bookmark_id) REFERENCES bookmarks(id) ON DELETE CASCADE);',
+        'CREATE TABLE comments (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, url TEXT, content TEXT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP, visible integer BOOLEAN DEFAULT 0 NOT NULL CHECK (visible IN (0,1)), bookmark_id INTEGER, inReplyTo TEXT DEFAULT NULL, FOREIGN KEY(bookmark_id) REFERENCES bookmarks(id) ON DELETE CASCADE);',
       );
       await db.run('CREATE UNIQUE INDEX comments_url ON comments(url)');
 
@@ -211,6 +212,17 @@ export async function getBookmarksForCSVExport() {
     console.error(dbError);
   }
   return undefined;
+}
+
+
+export async function getCommentIdFromMessageID(url) {
+  try {
+    const result = await db?.get('SELECT * FROM comments WHERE url = ?', url);
+    return result; // return the comment_id if the result is not null or undefined
+  } catch (dbError) {
+    console.error(dbError);
+    return null; // or handle the error as needed
+  }
 }
 
 export async function getBookmarkCountForTags(tags) {
@@ -321,9 +333,9 @@ export async function deleteBookmark(id) {
   }
 }
 
-export async function createComment(bookmarkId, name, url, content, visible = 0) {
+export async function createComment(bookmarkId, name, url, content, visible = 0, inReplyTo=null) {
   try {
-    await db.run('INSERT INTO comments (name, url, content, bookmark_id, visible) VALUES (?, ?, ?, ?, ?)', name, url, content, bookmarkId, visible);
+    await db.run('INSERT INTO comments (name, url, content, bookmark_id, visible, inReplyTo) VALUES (?, ?, ?, ?, ?, ?)', name, url, content, bookmarkId, visible, inReplyTo);
   } catch (dbError) {
     console.error(dbError);
   }

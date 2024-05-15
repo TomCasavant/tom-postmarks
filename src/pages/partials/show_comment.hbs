@@ -1,4 +1,8 @@
-<div class="comment">
+{{#if reply}}
+<div class="comment reply-comment">
+{{else}}
+  <div class="comment">
+{{/if}}
   <div class="top">
     <strong>
       {{{comment.linked_display_name}}}
