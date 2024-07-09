@@ -114,7 +114,7 @@ async function createUpdateMessage(bookmark, account, domain, db) {
   const updateMessage = {
     '@context': ['https://www.w3.org/ns/activitystreams', 'https://w3id.org/security/v1'],
     summary: `${account} updated the bookmark`,
-    type: 'Create', // this should be 'Update' but Mastodon does weird things with Updates
+    type: 'Update', // this should be 'Update' but Mastodon does weird things with Updates
     actor: `https://${domain}/u/${account}`,
     object: note,
   };
@@ -308,6 +308,7 @@ export function synthesizeActivity(note) {
     type: 'Create',
     published: note.published,
     actor: note.attributedTo,
-    object: note,
+    url: "https://tomcasavant.glitch.me/m/a-3db0585e6472f10d6e7ab0c2bd9a576b",
+    object: note
   };
 }

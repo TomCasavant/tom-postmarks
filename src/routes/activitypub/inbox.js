@@ -245,6 +245,9 @@ async function handleDeleteRequest(req, res) {
 }
 
 router.post('/', async function (req, res) {
+  const apDb = req.app.get('apDb');
+  const id = await apDb.getGuidForBookmarkId('69');
+  console.log(id);
   // console.log(JSON.stringify(req.body));
 
   if (typeof req.body.object === 'string' && req.body.type === 'Follow') {

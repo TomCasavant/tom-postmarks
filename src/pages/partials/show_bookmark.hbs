@@ -39,7 +39,13 @@
     {{else if (bookmarkIsYouTubeURL bookmark.url)}}
       {{#with (getYouTubeVideoID bookmark.url)}}
         <div class="youtube-container">
-          <iframe src="https://www.youtube.com/embed/{{this}}"></iframe>
+          <iframe 
+            src="https://www.youtube-nocookie.com/embed/{{this}}" 
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+            frameborder="0" 
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
         </div>
       {{/with}}
     {{else if (getSpotifySrcURL bookmark.url)}}
