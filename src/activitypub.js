@@ -12,6 +12,9 @@ function getGuidFromPermalink(urlString) {
 
 export async function signAndSend(message, name, domain, db, targetDomain, inbox) {
   try {
+    console.log("JSON STRINGIFY");
+    console.log(message);
+    console.log(JSON.stringify(message));
     const response = await signedPostJSON(inbox, {
       body: JSON.stringify(message),
     });
@@ -145,7 +148,7 @@ export async function createFollowMessage(account, domain, target, db) {
   const guid = crypto.randomBytes(16).toString('hex');
   const followMessage = {
     '@context': 'https://www.w3.org/ns/activitystreams',
-    id: guid,
+    id: `https://${domain}/m/${guid}`,
     type: 'Follow',
     actor: `https://${domain}/u/${account}`,
     object: target,
@@ -159,7 +162,7 @@ export async function createFollowMessage(account, domain, target, db) {
 
 export async function createUnfollowMessage(account, domain, target, db) {
   const undoGuid = crypto.randomBytes(16).toString('hex');
-
+  console.log("CREATING UNFOLLOW GUID");
   const messageRows = await db.findMessage(target);
 
   console.log('result', messageRows);
@@ -170,13 +173,18 @@ export async function createUnfollowMessage(account, domain, target, db) {
   });
 
   if (followMessages?.length > 0) {
+    console.log("followMEssages");
+    console.log(followMessages);
     const undoMessage = {
       '@context': 'https://www.w3.org/ns/activitystreams',
       type: 'Undo',
-      id: undoGuid,
+      id: `https://${domain}/m/${undoGuid}`,
       actor: `${domain}/u/${account}`,
-      object: followMessages.slice(-1).message,
+      object: followMessages.slice(-1)[0].message
     };
+    console.log("UNDO MESSAGE")
+    console.log(undoMessage);
+    db.insertMessage(undoGuid, null, JSON.stringify(undoMessage));
     return undoMessage;
   }
   console.log('tried to find a Follow record in order to unfollow, but failed');
@@ -302,13 +310,13 @@ export async function updateProfile(actorJson, domain, account) {
 }
 
 export function synthesizeActivity(note) {
+  
   return {
     // Fake activity URI adds a "a-" prefix to the Note/message guid
     id: note.id.replace('/m/', '/m/a-'),
     type: 'Create',
     published: note.published,
     actor: note.attributedTo,
-    url: "https://tomcasavant.glitch.me/m/a-3db0585e6472f10d6e7ab0c2bd9a576b",
-    object: note
+    object: note,
   };
 }

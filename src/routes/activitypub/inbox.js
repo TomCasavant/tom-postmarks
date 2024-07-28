@@ -29,8 +29,11 @@ async function sendAcceptMessage(thebody, name, domain, req, res, targetDomain) 
 }
 
 async function handleFollowRequest(req, res) {
+  
+  console.log("Handling follow request");
   const domain = req.app.get('domain');
   const apDb = req.app.get('apDb');
+  console.log(req.body);
 
   const myURL = new URL(req.body.actor);
   const targetDomain = myURL.hostname;
@@ -44,7 +47,10 @@ async function handleFollowRequest(req, res) {
 
   // update followers
   let followers = parseJSON(oldFollowersText);
+  console.log("FOLLOWERS:")
+  console.log(followers);
   if (followers) {
+    console.log(req.body.actor);
     followers.push(req.body.actor);
     // unique items
     followers = [...new Set(followers)];
@@ -99,6 +105,7 @@ async function handleUnfollow(req, res) {
 }
 
 async function handleFollowAccepted(req, res) {
+  console.log("FOLLOW ACCEPTED")
   const apDb = req.app.get('apDb');
 
   const oldFollowingText = (await apDb.getFollowing()) || '[]';

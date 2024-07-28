@@ -209,7 +209,9 @@ router.post('/following/follow', isAuthenticated, async (req, res) => {
     const inbox = await getInboxFromActorProfile(canonicalUrl);
 
     if (inbox) {
+      console.log("Creating follow message")
       const followMessage = await createFollowMessage(account, domain, canonicalUrl, db);
+      console.log(followMessage);
       signAndSend(followMessage, account, domain, db, req.body.actor.split('@').slice(-1), inbox);
     }
 
@@ -236,7 +238,7 @@ router.post('/following/unfollow', isAuthenticated, async (req, res) => {
 
     const inbox = await getInboxFromActorProfile(req.body.actor);
 
-    const unfollowMessage = createUnfollowMessage(account, domain, req.body.actor, db);
+    const unfollowMessage = await createUnfollowMessage(account, domain, req.body.actor, db);
 
     signAndSend(unfollowMessage, account, domain, db, new URL(req.body.actor).hostname, inbox);
 
