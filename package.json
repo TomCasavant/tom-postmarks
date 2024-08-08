@@ -1,6 +1,6 @@
 {
   "name": "postmarks",
-  "version": "0.0.1",
+  "version": "0.0.1+tomfork",
   "description": "A bookmark store and linkblog, powered by Express, sqlite and ActivityPub",
   "main": "server.js",
   "type": "module",

@@ -12,6 +12,9 @@ function getGuidFromPermalink(urlString) {
 
 export async function signAndSend(message, name, domain, db, targetDomain, inbox) {
   try {
+    console.log("JSON STRINGIFY");
+    console.log(message);
+    console.log(JSON.stringify(message));
     const response = await signedPostJSON(inbox, {
       body: JSON.stringify(message),
     });
@@ -114,7 +117,7 @@ async function createUpdateMessage(bookmark, account, domain, db) {
   const updateMessage = {
     '@context': ['https://www.w3.org/ns/activitystreams', 'https://w3id.org/security/v1'],
     summary: `${account} updated the bookmark`,
-    type: 'Create', // this should be 'Update' but Mastodon does weird things with Updates
+    type: 'Update', // this should be 'Update' but Mastodon does weird things with Updates
     actor: `https://${domain}/u/${account}`,
     object: note,
   };
@@ -145,7 +148,7 @@ export async function createFollowMessage(account, domain, target, db) {
   const guid = crypto.randomBytes(16).toString('hex');
   const followMessage = {
     '@context': 'https://www.w3.org/ns/activitystreams',
-    id: guid,
+    id: `https://${domain}/m/${guid}`,
     type: 'Follow',
     actor: `https://${domain}/u/${account}`,
     object: target,
@@ -159,7 +162,7 @@ export async function createFollowMessage(account, domain, target, db) {
 
 export async function createUnfollowMessage(account, domain, target, db) {
   const undoGuid = crypto.randomBytes(16).toString('hex');
-
+  console.log("CREATING UNFOLLOW GUID");
   const messageRows = await db.findMessage(target);
 
   console.log('result', messageRows);
@@ -170,13 +173,18 @@ export async function createUnfollowMessage(account, domain, target, db) {
   });
 
   if (followMessages?.length > 0) {
+    console.log("followMEssages");
+    console.log(followMessages);
     const undoMessage = {
       '@context': 'https://www.w3.org/ns/activitystreams',
       type: 'Undo',
-      id: undoGuid,
+      id: `https://${domain}/m/${undoGuid}`,
       actor: `${domain}/u/${account}`,
-      object: followMessages.slice(-1).message,
+      object: followMessages.slice(-1)[0].message
     };
+    console.log("UNDO MESSAGE")
+    console.log(undoMessage);
+    db.insertMessage(undoGuid, null, JSON.stringify(undoMessage));
     return undoMessage;
   }
   console.log('tried to find a Follow record in order to unfollow, but failed');
@@ -302,6 +310,7 @@ export async function updateProfile(actorJson, domain, account) {
 }
 
 export function synthesizeActivity(note) {
+  
   return {
     // Fake activity URI adds a "a-" prefix to the Note/message guid
     id: note.id.replace('/m/', '/m/a-'),

@@ -189,6 +189,7 @@ h1 {
 
 .description {
   color: var(--color-description);
+  word-wrap: break-word;
 }
 
   .description iframe {
@@ -535,6 +536,10 @@ a.bookmark-date {
 
 .bookmark-date + .bookmark-domain:before {
   content: "• ";
+}
+
+.bookmark-domain {
+  word-wrap: break-word;
 }
 
 .web-archive-link {

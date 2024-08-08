@@ -2,7 +2,9 @@
 {{#unless creating}}
   <h2>Review comments</h2>
   {{#each comments}}
-    {{> show_comment comment=this admin=true}}
+    {{! #unless this.visible}}
+      {{> show_comment comment=this admin=true}}
+    {{!/unless}}
   {{else}}
     No comments yet!
   {{/each}}

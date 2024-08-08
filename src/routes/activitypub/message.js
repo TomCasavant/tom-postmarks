@@ -30,6 +30,15 @@ router.get('/:guid', async (req, res) => {
   }
 
   let object = JSON.parse(result.message);
+  console.log(object.object);
+  try {
+    object.object = JSON.parse(object.object);
+  } catch {
+    console.log("Could not parse json");
+  }
+  
+  console.log("OBJECT");
+  console.log(object)
   if (isActivity) {
     object = synthesizeActivity(object);
   }
