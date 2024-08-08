@@ -18,11 +18,13 @@
 - Internet Archive link added next to Bookmark link
 - Border added below header and beside tag list
 - Activitypub username (@user@domain) added below the site title
+- 2nd and subsequent comments are all placed at the same level indented from the top level comments
 
 ### ActivityPub
 
 - Tags not appended to the end of description in notes (I think the federated posts look cleaner with hidden tags)
-- Added in profile fields 
+- Added in profile fields
+- Handles comments in reply to other comments
 
 ### Admin
 
