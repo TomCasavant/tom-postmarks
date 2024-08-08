@@ -86,7 +86,7 @@ router.get('/:id', async (req, res) => {
 
   const bookmark = await bookmarksDb.getBookmark(req.params.id);
   const comments = await bookmarksDb.getVisibleCommentsForBookmark(bookmark.id);
-
+  console.log(bookmark)
   if (!bookmark) {
     params.error = data.errorMessage;
   } else {

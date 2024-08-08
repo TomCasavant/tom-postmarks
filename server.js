@@ -35,6 +35,7 @@ app.set('domain', domain);
 
 app.disable('x-powered-by');
 
+
 // force HTTPS in production
 if (process.env.ENVIRONMENT === 'production') {
   app.set('trust proxy', ['127.0.0.1', '10.0.0.0/8']);
@@ -57,9 +58,8 @@ const hbs = create({
       return typeof plural === 'string' ? plural : `${singular}s`;
     },
     htmlize(text) {
-      // uh-oh. ohhhh no.
       const returnText = escapeHTML(text);
-      return returnText?.replace('\n', '<br/>');
+      return returnText?.replace(/\n/g, '<br/>'); // Updated to replace all newline characters
     },
     siteName() {
       return app.get('site_name');
@@ -162,6 +162,7 @@ const hbs = create({
   partialsDir: './src/pages/partials',
   extname: '.hbs',
 });
+
 
 app.set('view engine', '.hbs');
 app.set('views', './src/pages');

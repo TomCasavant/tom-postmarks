@@ -359,34 +359,78 @@ export async function toggleCommentVisibility(commentId) {
 
 export async function getAllCommentsForBookmark(bookmarkId) {
   try {
-    const results = await db.all('SELECT * FROM comments WHERE bookmark_id = ?', bookmarkId);
-    return results.map((c) => massageComment(c));
+    // Get all comments for the bookmark, including replies
+    const results = await db.all('SELECT * FROM comments WHERE bookmark_id = ? AND inReplyTo IS NULL', bookmarkId);
+    
+    // Map each comment to include its replies
+    const comments = [];
+    for (const comment of results) {
+      comments.push(massageComment(comment));
+
+      // Get replies for the current comment
+      const replies = await db.all('SELECT * FROM comments WHERE inReplyTo = ?', comment.url);
+      for (const reply of replies) {
+        comments.push(massageComment(reply));
+      }
+    }
+
+    return comments;
   } catch (dbError) {
     console.error(dbError);
+    return [];
   }
-  return undefined;
 }
 
 export async function getAllComments() {
   try {
-    const results = await db.all('SELECT * FROM comments WHERE bookmark_id IS NOT NULL');
-    return results.map((c) => massageComment(c));
+    // Get all top-level comments (comments with no inReplyTo)
+    const results = await db.all('SELECT * FROM comments WHERE inReplyTo IS NULL AND bookmark_id IS NOT NULL');
+    
+    // Map each top-level comment to include its replies
+    const comments = [];
+    for (const comment of results) {
+      comments.push(massageComment(comment));
+
+      // Get replies for the current top-level comment
+      const replies = await db.all('SELECT * FROM comments WHERE inReplyTo = ?', comment.url);
+      for (const reply of replies) {
+        comments.push(massageComment(reply));
+      }
+    }
+
+    return comments;
   } catch (dbError) {
     console.error(dbError);
+    return [];
   }
-  return undefined;
 }
+
 
 
 export async function getVisibleCommentsForBookmark(bookmarkId) {
   try {
-    const results = await db.all('SELECT * FROM comments WHERE visible = 1 AND bookmark_id = ?', bookmarkId);
-    return results.map((c) => massageComment(c));
+    // Get top-level comments (comments with no inReplyTo)
+    const results = await db.all('SELECT * FROM comments WHERE visible = 1 AND bookmark_id = ? AND inReplyTo IS NULL', bookmarkId);
+    
+    // Map each top-level comment to include its replies
+    const comments = [];
+    for (const comment of results) {
+      comments.push(massageComment(comment));
+
+      // Get replies for the current top-level comment
+      const replies = await db.all('SELECT * FROM comments WHERE visible = 1 AND inReplyTo = ?', comment.url);
+      for (const reply of replies) {
+        comments.push(massageComment(reply));
+      }
+    }
+
+    return comments;
   } catch (dbError) {
     console.error(dbError);
+    return [];
   }
-  return undefined;
 }
+
 
 export async function deleteHiddenCommentsForBookmark(bookmarkId) {
   try {
